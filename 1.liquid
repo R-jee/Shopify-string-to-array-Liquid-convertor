@@ -1,0 +1,19 @@
+
+
+{% capture TEMP__ARRAY %}""{% endcapture %}
+{% for product in collection.products %}
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+  {% capture Temp_array__0 %}
+    "{{ current_variant.sku }}","{{- product.price | money -}}","{{- product.compare_at_price | money -}}","{{ product.url | replace: "/products/", "" }}","{{ product.id }}" 
+  {% endcapture %}
+  {% assign TEMP__ARRAY1 = Temp_array__0 | append: "~::~" %}
+  {% assign TEMP__ARRAY =  TEMP__ARRAY | append: TEMP__ARRAY1 %}
+{% endfor %}
+
+<!-- {{ TEMP__ARRAY }} -->
+{% assign object = TEMP__ARRAY | split: "~::~" %}
+
+{% for item in object %}
+  {% assign item_keys_values = item | split: "," %}
+  {{ item_keys_values[3] }}
+{% endfor %}
